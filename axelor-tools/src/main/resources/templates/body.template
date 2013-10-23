@@ -1,0 +1,206 @@
+${ pojo.documentation }\
+<% pojo.annotations.each { a -> %>
+${a}\
+<% } %>
+public class ${pojo.name} extends ${pojo.baseClass} {
+<% pojo.fields.each { p -> %>\
+<% p.annotations.each { a -> %>
+	${a}\
+<% } %>
+	private $p.type ${p.name}${p.defaultExpression};
+<% } %>\
+
+${pojo.ctorCode}\
+
+<% pojo.fields.each { p -> %>\
+${p.documentation}
+<% if (p.isVirtual() && !p.isFormula()) { %>\
+	public $p.type ${p.getter}() {
+		try {
+			$p.name = compute${p.firstUpper(p.name)}();
+		} catch (NullPointerException e){
+			${p.importName('org.slf4j.Logger')} logger = ${p.importName('org.slf4j.LoggerFactory')}.getLogger(getClass());
+			logger.error("NPE in function field: {}", "${p.getter}()");
+		}
+		return $p.name;
+	}
+	
+	protected $p.type compute${p.firstUpper(p.name)}() {
+		$p.code
+	}
+<% } else { %>\
+	public $p.type ${p.getter}() {
+		$p.getterBody
+	}
+<% } %>\
+
+	public void ${p.setter}($p.type $p.name) {
+		$p.setterBody
+	}
+<% if (p.isCollection()) { %>\
+	
+	/**
+	 * Add the given {@link #${p.target}} item to the {@code ${p.name}}.
+	 *
+<% if (p.serverType == "one-to-many" && p.mappedBy) {%>\
+	 * <p>
+	 * It sets {@code item.${p.mappedBy} = this} to ensure the proper relationship.
+	 * </p>
+<% } %>\
+	 */
+	public void add${p.firstUpper(p.singularName)}($p.target item) {
+		if (${p.name} == null) {
+			${p.name} = ${p.newCollection()};
+		}
+		${p.name}.add(item);
+<% if (p.linkCode) { %>\
+		${p.linkCode}
+<% } %>\
+	}
+
+	/**
+	 * Remove the given {@link #${p.target}} item from the {@code ${p.name}}.
+	 *
+<% if (p.serverType == "one-to-many" && p.orphan) {%>\
+	 * <p>
+	 * It sets {@code item.${p.mappedBy} = null} to break the relationship.
+	 * </p>
+<% } %>\
+	 */	
+	public void remove${p.firstUpper(p.singularName)}($p.target item) {
+		if (${p.name} == null) {
+			return;
+		}
+		${p.name}.remove(item);
+<% if (p.delinkCode) { %>\
+		${p.delinkCode}
+<% } %>\
+	}
+	
+	/**
+	 * Clear the {@code ${p.name}} collection.
+	 *
+	 * <p>
+<% if (p.serverType == "one-to-many" && p.orphan) {%>\
+	 * It sets {@code item.${p.mappedBy} = null} to break the relationship.
+<% } else { %>\
+	 * It calls the {@code this.flush()} method to avoid unexpected errors
+	 * if any of the item in the collection is changed.
+<% } %>\
+	 * </p>
+	 */	
+	public void clear${p.firstUpper(p.name)}() {
+		if (${p.name} != null) {
+<% if (p.delinkAllCode) { %>\
+			${p.delinkAllCode}
+<% } %>\
+			${p.name}.clear();
+			this.flush();
+		}
+	}
+<% } %>\
+<% } %>\
+	
+	@Override
+	public boolean equals(Object obj) {
+		${pojo.equalsCode}
+	}
+	
+	@Override
+	public int hashCode() {
+		${pojo.hashCodeCode}
+	}
+	
+	@Override
+	public String toString() {
+		${pojo.toStringCode}
+	}
+<% pojo.finderMethods.each { %>\
+	${it.code}\
+<% } %>\
+
+	/**
+	 * Make the entity managed and persistent.
+	 * 
+	 * @see EntityManager#persist(Object)
+	 */
+	public $pojo.name persist() {
+		return JPA.persist(this);
+	}
+
+	/**
+	 * Merge the state of the entity into the current persistence context.
+	 * 
+	 * @see EntityManager#merge(Object)
+	 */
+	public $pojo.name merge() {
+		return JPA.merge(this);
+	}
+
+	/**
+	 * Save the state of the entity.<br>
+	 * <br>
+	 * It uses either {@link #persist()} or {@link #merge()} and calls
+	 * {@link #flush()} to synchronize values with database.
+	 * 
+	 * @see #persist(Model)
+	 * @see #merge(Model)
+	 * 
+	 */
+	public $pojo.name save() {
+		return JPA.save(this);
+	}
+	
+	/**
+	 * Remove the entity instance.
+	 * 
+	 * @see EntityManager#remove(Object)
+	 */
+	public void remove() {
+		JPA.remove(this);
+	}
+	
+	/**
+	 * Refresh the state of the instance from the database, overwriting changes
+	 * made to the entity, if any.
+	 * 
+	 * @see EntityManager#refresh(Object)
+	 */
+	public void refresh() {
+		JPA.refresh(this);
+	}
+	
+	/**
+	 * Synchronize the persistence context to the underlying database.
+	 * 
+	 * @see EntityManager#flush()
+	 */
+	public void flush() {
+		JPA.flush();
+	}
+	
+	/**
+	 * Find a <code>$pojo.name</code> by <code>id</code>.
+	 *
+	 */
+	public static $pojo.name find(Long id) {
+		return JPA.find(${pojo.name}.class, id);
+	}
+	
+	/**
+	 * Return a {@link Query} instance for <code>$pojo.name</code> to filter
+	 * on all the records.
+	 *
+	 */
+	public static Query<$pojo.name> all() {
+		return JPA.all(${pojo.name}.class);
+	}
+	
+	/**
+	 * A shortcut method to <code>${pojo.name}.all().filter(...)</code>
+	 *
+	 */
+	public static Query<$pojo.name> filter(String filter, Object... params) {
+		return JPA.all(${pojo.name}.class).filter(filter, params);
+	}
+}

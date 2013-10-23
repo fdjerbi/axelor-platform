@@ -1,0 +1,26 @@
+package com.axelor.drools
+
+import com.google.inject.Injector;
+
+import com.axelor.drools.domain.Person
+import com.axelor.drools.service.PersonService
+
+global Injector injector
+
+rule "rule 1"
+	when
+	    Person( age > 0 ,$age : age);
+	then
+	    System.out.println("I've "+$age);
+end
+
+rule "rule 2"
+	when
+	    $person : Person( $name : name );
+	then
+	    System.out.println("My name is "+$name);
+	    PersonService ps = injector.getInstance(PersonService.class);
+	    ps.print();
+	    $person.setAge(26);
+	    ps.print($person);
+end

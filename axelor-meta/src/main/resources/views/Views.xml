@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://apps.axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://apps.axelor.com/xml/ns/object-views http://apps.axelor.com/xml/ns/object-views/object-views_0.9.xsd">
+
+  <selection name="view.type.selection">
+    <option value="grid">Grid</option>
+    <option value="form">Form</option>
+    <option value="tree">Tree</option>
+    <option value="search">Search</option>
+    <option value="portal">Portal</option>
+    <option value="calendar">Calendar</option>
+    <option value="searchfilters">Filters</option>
+  </selection>
+
+  <selection name="action.type.selection">
+    <option value="action-attrs">action-attrs</option>
+    <option value="action-view">action-view</option>
+    <option value="action-group">action-group</option>
+    <option value="action-validate">action-validate</option>
+    <option value="action-condition">action-condition</option>
+    <option value="action-record">action-record</option>
+    <option value="action-method">action-method</option>
+    <option value="action-import">action-import</option>
+    <option value="action-export">action-export</option>
+    <option value="action-ws">action-ws</option>
+    <option value="action-workflow">action-workflow</option>
+  </selection>
+
+  <grid title="All Modules" name="meta-module-grid" model="com.axelor.meta.db.MetaModule">
+    <field name="name"/>
+    <field name="title"/>
+    <field name="moduleVersion" width="200"/>
+    <field name="installed" width="100"/>
+    <field name="removable" width="100"/>
+  </grid>
+  
+  <form name="meta-module-form" title="Module" cols="4" colWidths="100,10,200,*"
+    model="com.axelor.meta.db.MetaModule">
+    <separator title="Module" colSpan="4" />
+    <field name="title" colSpan="4" />
+    <field name="name" colSpan="4" />
+    <field name="moduleVersion" colSpan="4" />
+    <field name="depends" widget="Tags" colSpan="4" />
+    <field name="installed" readonly="true"/>
+    <group cols="1">
+      <button name="btnInstall" title="Install" showIf="!installed"
+        onClick="com.axelor.meta.web.ModuleController:install(name)" />
+      <button name="btnUninstall" title="Uninstall" showIf="installed &amp;&amp; removable"
+        onClick="com.axelor.meta.web.ModuleController:uninstall(name)" />
+    </group>
+    <spacer />
+    <separator title="Details" colSpan="4" />
+    <field name="description" colSpan="4" showTitle="false" />
+  </form>
+
+  <selection name="meta.translation.type.selection">
+  	<option value="field">Field</option>
+  	<option value="help">Help</option>
+    <option value="placeholder">PlaceHolder</option>
+    <option value="documentation">Documentation</option>
+    <option value="group">Group</option>
+    <option value="page">Page</option>
+    <option value="separator">Separator</option>
+    <option value="label">Label</option>
+    <option value="button">Button</option>
+    <option value="menu">Menu</option>
+    <option value="actionMenu">Action Menu</option>
+    <option value="view">View</option>
+    <option value="tree">Tree</option>
+    <option value="chart">Chart</option>
+    <option value="portlet">Portlet</option>
+    <option value="search">Search</option>
+    <option value="filter">Filter</option>
+    <option value="action">Action</option>
+    <option value="select">Select</option>
+    <option value="other">Other</option>
+  </selection>
+
+  <grid title="All Views" name="meta-view-grid" model="com.axelor.meta.db.MetaView" orderBy="priority,name">
+    <field name="name"/>
+    <field name="title"/>
+    <field name="type" selection="view.type.selection"/>
+    <field name="model"/>
+    <field name="module"/>
+    <field name="priority" width="75"/>
+  </grid>
+  
+  <form name="meta-view-form" title="View" model="com.axelor.meta.db.MetaView" cols="2" colWidths="*,250"
+    onSave="action-view-validate,com.axelor.meta.web.MetaController:clearCache">
+    <group title="View Details" cols="4">
+        <field name="name"/>
+        <field name="priority"/>
+        <field name="title"/>
+        <field name="type" selection="view.type.selection"/>
+        <field name="model"/>
+        <field name="module"/>
+        <field name="groups" widget="TagSelect[create=code,name]"/>
+    </group>
+    <group title="Actions" cols="1">
+        <button name="validate" title="Validate" onClick="action-view-validate"/>
+        <button name="restore" title="Restore" onClick="action-meta-todo"/>
+        <button name="restoreAll" title="Restore All" prompt="All the customizations will be lost. Are you sure?" onClick="action-meta-restore-all"/>
+        <button name="preview" title="Preview" onClick="action-meta-todo"/>
+    </group>
+    <field name="xml" showTitle="false" colSpan="2" widget="CodeEditor[syntax=xml|height=500]"/>
+</form>
+
+  <grid title="All Actions" name="meta-action-grid" model="com.axelor.meta.db.MetaAction">
+    <field name="name" />
+    <field name="type" selection="action.type.selection"/>
+    <field name="model" />
+    <field name="module"/>
+  </grid>
+
+  <form title="Action" name="meta-action-form" model="com.axelor.meta.db.MetaAction"
+    onSave="action-action-validate,com.axelor.meta.web.MetaController:clearCache">
+    <field name="name" readonlyIf="id"/>
+    <field name="type" readonlyIf="id" selection="action.type.selection"/>
+    <field name="model"/>
+    <field name="module"/>
+    <notebook colSpan="4">
+      <page title="XML" cols="1">
+        <field name="xml" showTitle="false" widget="CodeEditor[syntax=xml|height=500]"/>
+      </page>
+    </notebook>
+  </form>
+
+  <grid title="Menu Items" name="meta-menu-grid" model="com.axelor.meta.db.MetaMenu">
+    <field name="name"/>
+    <field name="title"/>
+    <field name="parent"/>
+    <field name="action"/>
+    <field name="module"/>
+    <field name="top"/>
+    <field name="left"/>
+    <field name="mobile"/>
+    <field name="priority"/>
+  </grid>
+
+  <form title="Menu Item" name="meta-menu-form" model="com.axelor.meta.db.MetaMenu">
+    <field name="name"/>
+    <field name="parent" domain="self.name != :name"/>
+    <field name="title"/>
+    <field name="icon"/>
+    <field name="action"/>
+    <field name="top"/>
+    <field name="module"/>
+    <field name="left"/>
+    <field name="priority"/>
+    <field name="mobile"/>
+    <break/>
+    <notebook colSpan="4">
+      <page title="Groups" cols="1">
+        <field name="groups" showTitle="false"/>
+      </page>
+    </notebook>
+  </form>
+
+  <grid title="Action Menus" name="meta-action-menu-grid" model="com.axelor.meta.db.MetaActionMenu">
+    <field name="name"/>
+    <field name="title"/>
+    <field name="parent"/>
+    <field name="category"/>
+    <field name="action"/>
+    <field name="module"/>
+  </grid>
+
+  <form title="Action Menu" name="meta-action-menu-form" model="com.axelor.meta.db.MetaActionMenu">
+    <field name="name"/>
+    <field name="title"/>
+    <field name="parent" domain="self.name != :name"/>
+    <field name="category"/>
+    <field name="action"/>
+    <field name="module"/>
+  </form>
+
+  <grid title="All Selects" name="meta-select-grid" model="com.axelor.meta.db.MetaSelect">
+    <field name="name"/>
+    <field name="module"/>
+    <field name="priority" width="75"/>
+  </grid>
+
+  <form colWidths="5%,*,5%,*" name="meta-select-form" title="Select"
+    model="com.axelor.meta.db.MetaSelect">
+    <field name="name" />
+    <field name="priority" />
+    <field name="module" />
+    <spacer />
+    <field name="items" colSpan="4">
+      <grid title="Select Items" editable="true" orderBy="order">
+        <field name="title" />
+        <field name="value" />
+        <field name="order" />
+      </grid>
+      <form cols="2" title="Select Item">
+        <field name="title" />
+        <field name="value" />
+        <field name="order" help="Sequence order" />
+      </form>
+    </field>
+  </form>
+
+  <action-method name="action-view-validate">
+    <call class="com.axelor.meta.web.MetaController" method="validateView"/>
+  </action-method>
+
+  <action-method name="action-action-validate">
+    <call class="com.axelor.meta.web.MetaController" method="validateAction"/>
+  </action-method>
+
+  <action-method name="action-meta-restore-all">
+    <call class="com.axelor.meta.web.MetaController" method="restoreAll"/>
+  </action-method>
+
+  <action-validate name="action-meta-todo">
+    <error message="Not implemented yet!"/>
+  </action-validate>
+
+  <grid name="meta-model-grid" title="Models" model="com.axelor.meta.db.MetaModel">
+    <field name="packageName"/>
+    <field name="name"/>
+    <field name="tableName"/>
+  </grid>
+
+  <form name="meta-model-form" title="Model" model="com.axelor.meta.db.MetaModel" cols="2" >
+    <field name="packageName"/>
+    <field name="name"/>
+    <field name="tableName"/>
+    <field name="metaFields" colSpan="2"/>
+  </form>
+
+  <selection name="relationship.field.selection">
+    <option value="OneToOne">OneToOne</option>
+    <option value="ManyToOne">ManyToOne</option>
+    <option value="OneToMany">OneToMany</option>
+    <option value="ManyToMany">ManyToMany</option>
+  </selection>
+
+  <grid name="meta-field-grid" title="Fields" model="com.axelor.meta.db.MetaField">
+    <field name="name"/>
+    <field name="typeName"/>
+    <field name="label"/>
+    <field name="relationship" />
+    <field name="mappedBy" />
+  </grid>
+
+  <form name="meta-field-form" title="Field" model="com.axelor.meta.db.MetaField" cols="2">
+    <field name="name"/>
+    <field name="packageName"/>
+    <field name="typeName"/>
+    <field name="label"/>
+    <field name="relationship"/>
+    <field name="mappedBy" hideIf="relationship != 'OneToMany' || relationship != 'OneToOne'"/>
+    <button name="openModel" title="Show Model" colSpan="2" hideIf="!relationship" onClick="meta-field-method-open-model"/>
+    <separator title="Description" colSpan="2"/>
+    <field name="description" showTitle="false" colSpan="2"/>
+  </form>
+
+  <action-method name="meta-field-method-open-model">
+    <call class="com.axelor.meta.web.MetaController" method="openModel"/>
+  </action-method>
+
+  <grid title="All Translations" name="meta-translations-grid" model="com.axelor.meta.db.MetaTranslation" editable="true">
+    <field name="key"/>
+    <field name="language"/>
+    <field name="translation"/>
+    <field name="domain"/>
+    <field name="type" selection="meta.translation.type.selection"/>
+  </grid>
+
+  <form title="Translation" name="meta-translations-form" model="com.axelor.meta.db.MetaTranslation" colWidths="*,250">
+    <group showTitle="false" cols="4">
+      <field name="key"/>
+      <field name="language"/>
+      <field name="translation"/>
+      <field name="domain"/>
+      <field name="type" selection="meta.translation.type.selection"/>
+    </group>
+    <group title="Actions" cols="2" colSpan="1" hideIf="$readonly()">
+      <button name="restoreAll" colSpan="2" title="Restore All" onClick="action-meta-show-import-group"/>
+      <button name="export" colSpan="2" title="Export All" onClick="action-meta-show-export-group"/>
+    </group>
+    <group name="exportGroup" title="Configuration" colSpan="4" hidden="true">
+    	<field name="exportLanguage" title="Export language" selection="select.language"/>
+    	<field name="exportPath" title="Export path"/>
+    	<button name="lauchExport" colSpan="2" title="Export" onClick="action-meta-export-translations" readonlyIf="!exportPath &amp;&amp; !exportLanguage"/>
+    </group>
+    <group name="importGroup" title="Configuration" hidden="true" colSpan="4">
+        <field name="importType" title="Import type" selection="selection.translation.import.type" widget="RadioSelect"/>
+        <field name="importPath" title="Import path" showIf="importType == 2"/>
+        <button name="lauchImport" colSpan="2" title="Import" readonlyIf="!importPath &amp;&amp; !importType" prompt="All the customizations will be lost. Are you sure?" onClick="action-meta-restore-translations"/>
+    </group>
+  </form>
+
+  <action-method name="action-meta-restore-translations">
+    <call class="com.axelor.meta.web.MetaController" method="restoreTranslations"/>
+  </action-method>
+
+  <action-attrs name="action-meta-show-export-group">
+    <attribute name="hidden" for="exportGroup" expr="eval: false"/>
+    <attribute name="hidden" for="importGroup" expr="eval: true"/>
+  </action-attrs>
+  
+  <action-attrs name="action-meta-show-import-group">
+    <attribute name="hidden" for="exportGroup" expr="eval: true"/>
+    <attribute name="hidden" for="importGroup" expr="eval: false"/>
+  </action-attrs>
+
+  <action-method name="action-meta-export-translations">
+    <call class="com.axelor.meta.web.MetaController" method="exportTranslations"/>
+  </action-method>
+
+  <grid title="Files" name="meta-files-grid" model="com.axelor.meta.db.MetaFile">
+    <field name="fileName"/>
+    <field name="sizeText" width="150"/>
+    <field name="mine" width="250"/>
+    <field name="createdBy"/>
+    <field name="createdOn" width="150"/>
+  </grid>
+
+  <form title="Files" name="meta-files-form" model="com.axelor.meta.db.MetaFile">
+    <field name="content"/>
+    <field name="fileName"/>
+    <field name="size"/>
+    <field name="mine"/>
+    <field name="description"/>
+  </form>
+
+  <grid title="Charts" name="meta-chart-grid" model="com.axelor.meta.db.MetaChart">
+    <field name="name" />
+    <field name="title" />
+    <field name="stacked" />
+    <field name="module" />
+  </grid>
+  
+  <form title="Chart" name="meta-chart-form" model="com.axelor.meta.db.MetaChart" cols="6">
+    <field name="name" />
+    <field name="title" />
+    <field name="stacked" />
+
+    <field name="categoryKey" />
+    <field name="categoryType" selection="selection.chart.xtype"/>
+    <field name="categoryTitle"/>
+    
+    <field name="module" />
+    <break/>
+
+    <notebook colSpan="6">
+      <page cols="4" title="Query" colWidths="5%,75,90%,*">
+        <field name="queryType" title="Type" css="small-input" selection="selection.chart.qtype"/>
+        <spacer colSpan="2"/>
+        <field name="query" colSpan="4" showTitle="false" widget="CodeEditor[syntax=sql|height=400]"/>
+      </page>
+      <page title="Series" cols="1">
+        <field name="chartSeries">
+          <grid title="Series" editable="true">
+            <field name="key" />
+            <field name="groupBy"/>
+            <field name="type" selection="selection.chart.type"/>
+            <field name="side" selection="selection.chart.side"/>
+            <field name="title"/>
+            <field name="aggregate" selection="selection.chart.aggregate"/>
+          </grid>
+          <form title="Series">
+            <field name="key"/>
+            <break/>
+            <field name="groupBy"/>
+            <field name="aggregate" selection="selection.chart.aggregate"/>
+            <field name="type" selection="selection.chart.type" />
+            <field name="side" selection="selection.chart.side"/>
+            <field name="title" colSpan="4"/>
+          </form>
+        </field>
+      </page>
+      <page title="Config" cols="1">
+        <field name="chartConfig">
+          <grid title="Config" editable="true">
+            <field name="name"/>
+            <field name="value"/>
+          </grid>
+        </field>
+      </page>
+    </notebook>
+  </form>
+  
+  <selection name="selection.chart.type">
+    <option value="pie">Pie</option>
+    <option value="bar">Bar</option>
+    <option value="hbar">HBar</option>
+    <option value="line">Line</option>
+    <option value="area">Area</option>
+    <option value="radar">Radar</option>
+    <option value="gauge">Gauge</option>
+    <option value="scatter">Scatter</option>
+  </selection>
+  
+  <selection name="selection.chart.side">
+    <option value="left">Left</option>
+    <option value="right">Right</option>
+  </selection>
+
+  <selection name="selection.chart.xtype">
+    <option value="number">Number</option>
+    <option value="decimal">Decimal</option>
+    <option value="date">Date</option>
+    <option value="time">Time</option>
+    <option value="month">Month</option>
+    <option value="year">Year</option>
+    <option value="text">Text</option>
+  </selection>
+  
+  <selection name="selection.chart.qtype">
+    <option value="jpql">JPQL</option>
+    <option value="sql">SQL</option>
+  </selection>
+  
+  <selection name="selection.chart.aggregate">
+    <option value="sum">Sum</option>
+    <option value="count">Count</option>
+    <option value="average">Average</option>
+    <option value="minimum">Minimum</option>
+    <option value="maximum">Maximum</option>
+    <option value="variance">Variance</option>
+    <option value="deviation">Std. Deviation</option>
+  </selection>
+  
+  <selection name="selection.translation.import.type">
+    <option value="1">From sources</option>
+    <option value="2">From directory</option>
+  </selection>
+
+</object-views>

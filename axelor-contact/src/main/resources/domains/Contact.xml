@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://apps.axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://apps.axelor.com/xml/ns/domain-models http://apps.axelor.com/xml/ns/domain-models/domain-models_0.9.xsd">
+
+  <module name="contact" package="com.axelor.contact.db"/>
+
+  <entity name="Contact" sequential="true" cachable="true">
+    <many-to-one name="title" ref="Title"/>
+    <string name="firstName" required="true" initParam="true"/>
+    <string name="lastName" required="true" initParam="true"/>
+    <string name="fullName" namecolumn="true" search="firstName,lastName"><![CDATA[
+    if (firstName == null && lastName == null)
+    	return null;
+    if (title == null)
+        return firstName + " " + lastName;
+    return title.getName() + " " + firstName + " " + lastName;
+    ]]></string>
+    <string name="email" required="true" unique="true" max="100" initParam="true"/>
+    <string name="phone" max="20"/>
+    <date name="dateOfBirth"/>
+    <one-to-many name="addresses" ref="Address" mappedBy="contact"/>
+    <many-to-one name="circle" ref="Circle"/>
+    <string name="notes" large="true"/>
+    <binary name="image" title="Photo" help="Max size 4MB." image="true"/>
+    <many-to-one name="company" ref="Company"/>
+    <finder-method name="findByName" using="fullName" />
+    <finder-method name="findByEmail" using="email" />
+  </entity>
+
+</domain-models>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://apps.axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://apps.axelor.com/xml/ns/domain-models http://apps.axelor.com/xml/ns/domain-models/domain-models_0.9.xsd">
+
+  <module name="meta" package="com.axelor.meta.db" />
+  
+  <entity name="MetaModule" table="META_MODULE" cachable="true">
+    <string name="name" required="true" unique="true"/>
+    <string name="title" required="true" />
+    <string name="description" large="true"/>
+    <string name="depends" max="512"/>
+    <string name="moduleVersion" required="true" title="Version"/>
+    <boolean name="removable" />
+    <boolean name="installed" />
+  </entity>
+  
+  <entity name="MetaView" table="META_VIEW" sequential="true" cachable="true">
+  	<string name="name" required="true"/>
+	<string name="title" required="true" namecolumn="true"/>
+  	<string name="type" required="true"/>
+    <integer name="priority" required="true" default="20"/>
+  	<string name="model"/>
+    <string name="module"/>
+  	<string name="xml" required="true" large="true"/>
+  	<many-to-many name="groups" ref="com.axelor.auth.db.Group"/>
+    
+    <finder-method name="findByName" using="name"                     orderBy="-priority" />
+    <finder-method name="findByName" using="name,Long:groupId"        orderBy="-priority" filter="self.name = :name AND self.groups[].id = :groupId"/>
+    <finder-method name="findByName" using="name,model"               orderBy="-priority"/>
+    <finder-method name="findByName" using="name,model,Long:groupId"  orderBy="-priority" filter="self.name = :name AND self.model = :model AND self.groups[].id = :groupId"/>
+    
+    <finder-method name="findByType" using="type,model"               orderBy="-priority" filter="self.model = :model AND self.type = :type"/>
+    <finder-method name="findByType" using="type,model,Long:groupId"  orderBy="-priority" filter="self.model = :model AND self.type = :type AND self.groups[].id = :groupId"/>
+    
+    <finder-method name="findByModule" using="module" all="true"/>
+  </entity>
+  
+  <entity name="MetaMenu" table="META_MENU" sequential="true" cachable="true">
+  	<integer name="priority"/>
+  	<string name="name" unique="true" required="true"/>
+  	<string name="title" required="true" namecolumn="true"/>
+  	<string name="icon"/>
+    <string name="module"/>
+    <boolean name="top" column="top_menu"/>
+    <boolean name="left" column="left_menu" default="true"/>
+    <boolean name="mobile" column="mobile_menu"/>
+  	<many-to-one name="parent" ref="MetaMenu"/>
+  	<many-to-one name="action" ref="MetaAction"/>
+  	<many-to-many name="groups" ref="com.axelor.auth.db.Group"/>
+    <finder-method name="findByName" using="name" orderBy="-priority"/>
+    <finder-method name="findByParent" using="Long:id" filter="self.parent.id = :id" all="true"/>
+    <finder-method name="findByModule" using="module" all="true"/>
+  </entity>
+  
+  <entity name="MetaActionMenu" table="META_ACTION_MENU" cachable="true">
+  	<string name="name" unique="true" required="true"/>
+  	<string name="title" required="true" namecolumn="true"/>
+    <string name="category" help="Category name to group action menus."/>
+    <string name="module"/>
+  	<many-to-one name="parent" ref="MetaActionMenu"/>
+  	<many-to-one name="action" ref="MetaAction"/>
+    <finder-method name="findByModule" using="module" all="true"/>
+  </entity>
+   
+  <entity name="MetaAction" table="META_ACTION" sequential="true" cachable="true">
+  	<string name="name" unique="true" required="true"/>
+    <string name="type" required="true"/>
+    <string name="model" />
+    <string name="module" />
+  	<string name="xml" required="true" large="true"/>
+    <finder-method name="findByModule" using="module" all="true"/>
+  </entity>
+  
+  <entity name="MetaSelect" table="META_SELECT" cachable="true">
+    <string name="name" required="true"/>
+    <integer name="priority" required="true" default="20"/>
+    <string name="module"/>
+    <one-to-many name="items" ref="MetaSelectItem" mappedBy="select"/>
+    <finder-method name="findByName" using="name" orderBy="-priority"/>
+    <finder-method name="findByModule" using="module" all="true"/>
+  </entity>
+
+  <entity name="MetaSelectItem" table="META_SELECT_ITEM" cachable="true">
+    <string name="value" required="true"/>
+    <string name="title" required="true" namecolumn="true"/>
+    <integer name="order" column="order_seq"/>
+    <many-to-one name="select" ref="MetaSelect" column="select_id" required="true"/>
+  </entity>
+  
+  <entity name="MetaModel" table="META_MODEL" sequential="true" cachable="true">
+    <string name="name" title="Name" required="true"/>
+    <string name="packageName" title="Package" required="true"/>
+    <string name="tableName" title="Table" />
+    <one-to-many name="metaFields" ref="MetaField" mappedBy="metaModel" title="Fields" />
+    <string name="fullName" title="Fullname" />
+  </entity>
+
+  <entity name="MetaField" table="META_FIELD" sequential="true" cachable="true">
+    <many-to-one name="metaModel" ref="MetaModel" />
+    <string name="name" title="Name" required="true"/>
+    <string name="packageName" title="Package" />
+    <string name="typeName" title="Type"  required="true"/>
+    <string name="label" title="Label" />
+    <string name="relationship" title="Relationship" selection="relationship.field.selection"/>
+    <string name="mappedBy" title="Mapped by" />
+    <string name="description" title="Description" large="true" />
+  </entity>
+  
+  <entity name="MetaTranslation" table="META_TRANSLATION" cachable="true">
+  	<string name="key" required="true"/>
+  	<string name="language" required="true"/>
+  	<string name="translation" large="true"/>
+  	<string name="domain"/>
+  	<string name="type" selection="meta.translation.type.selection"/>
+  	<unique-constraint columns="key,type,language,domain"/>
+  </entity>
+  
+  <entity name="MetaFile" table="META_FILE">
+  	<binary name="content" title="File"/>
+  	<string name="fileName" required="true" namecolumn="true"/>
+  	<long name="size" title="Size in bytes" readonly="true"/>
+  	<string name="mine" title="File type"/>
+  	<string name="description" multiline="true"/>
+  	<string name="sizeText" title="Size" readonly="true">
+      <![CDATA[
+      	if(size >= 1024)
+      		return (size / 1024) + " KB";
+      	else if(size > 1048576)
+      		return (size / 1048576) + " MB";
+      	else if(size > 1073741824)
+      		return (size / 1073741824) + " GB";
+      	return size + " Bytes";
+      ]]>
+  	</string>
+  </entity>
+  
+  <entity name="MetaAttachment" table="META_ATTACHMENT">
+  	<string name="objectName" required="true"/>
+  	<long name="objectId" required="true"/>
+  	<many-to-one name="metaFile" ref="MetaFile" title="File" required="true" column="meta_file"/>
+  	<unique-constraint columns="objectName,objectId,meta_file"/>
+  </entity>
+
+  <entity name="MetaChartSeries" table="META_CHART_SERIES">
+    <string name="key" required="true"/>
+    <string name="groupBy" />
+    <string name="title" />
+    <string name="type" />
+    <string name="side" />
+    <string name="aggregate"/>
+  </entity>
+  
+  <entity name="MetaChartConfig" table="META_CHART_CONFIG">
+    <string name="name" required="true"/>
+    <string name="value" required="true"/>
+  </entity>
+
+  <entity name="MetaChart" table="META_CHART">
+    <string name="name" required="true" unique="true"/>
+    <string name="module"/>
+    <string name="title" />
+    <boolean name="stacked" />
+    <string name="query" large="true" multiline="true" required="true"/>
+    <string name="queryType"/>
+    <string name="categoryKey" required="true" />
+    <string name="categoryType" />
+    <string name="categoryTitle" />
+    <one-to-many name="chartSeries" ref="MetaChartSeries" />
+    <one-to-many name="chartConfig" ref="MetaChartConfig" />
+	<finder-method name="findByModule" using="module" all="true"/>
+  </entity>
+
+</domain-models>

@@ -1,0 +1,343 @@
+/**
+ * Copyright (c) 2012-2013 Axelor. All Rights Reserved.
+ *
+ * The contents of this file are subject to the Common Public
+ * Attribution License Version 1.0 (the “License”); you may not use
+ * this file except in compliance with the License. You may obtain a
+ * copy of the License at:
+ *
+ * http://license.axelor.com/.
+ *
+ * The License is based on the Mozilla Public License Version 1.1 but
+ * Sections 14 and 15 have been added to cover use of software over a
+ * computer network and provide for limited attribution for the
+ * Original Developer. In addition, Exhibit A has been modified to be
+ * consistent with Exhibit B.
+ *
+ * Software distributed under the License is distributed on an “AS IS”
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
+ * the License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is part of "Axelor Business Suite", developed by
+ * Axelor exclusively.
+ *
+ * The Original Developer is the Initial Developer. The Initial Developer of
+ * the Original Code is Axelor.
+ *
+ * All portions of the code written by Axelor are
+ * Copyright (c) 2012-2013 Axelor. All Rights Reserved.
+ */
+.slickgrid {
+	background: white;
+	outline: 0;
+	border: 1px solid #DDD;
+	border-top: 0 !important;
+}
+
+.slickgrid .slick-header,
+.slickgrid .slick-header-column {
+	
+	color: #333;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+
+	background-color: #f5f5f5;
+  
+	background-image: -moz-linear-gradient(top, white, #E6E6E6);
+	background-image: -ms-linear-gradient(top, white, #E6E6E6);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), to(#E6E6E6));
+	background-image: -webkit-linear-gradient(top, white, #E6E6E6);
+	background-image: -o-linear-gradient(top, white, #E6E6E6);
+	background-image: linear-gradient(top, white, #E6E6E6);
+	background-repeat: repeat-x;
+	
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+	   -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+	        box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+
+.slickgrid .slick-cell,
+.slickgrid .slick-header-column {
+	-webkit-box-sizing: content-box;
+	   -moz-box-sizing: content-box;
+	    -ms-box-sizing: content-box;
+	        box-sizing: content-box;
+}
+
+.slick-row.odd {
+  background: #F9F9F9;
+}
+
+.slick-row:hover {
+  background: #F5F5F5;
+}
+
+.slick-row .slick-cell {
+	border-bottom: 1px dotted silver;
+}
+
+.slick-cell {
+	line-height: 20px;
+}
+
+.slick-cell.selected {
+  background-color: #DFE8F6;
+}
+
+.slick-cell.active {
+  border-color: silver;
+  border-style: solid;
+}
+
+.slick-headerrow {
+	height: 26px;
+	border-top: none !important;
+	background-image: none !important;
+}
+
+.slick-headerrow-column {
+	height: 24px;
+	border-left: none !important;
+	border-top: none !important;
+	border-bottom: none !important;
+	background: #f5f5f5;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	     box-sizing: border-box;
+}
+
+.slick-headerrow input {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	outline: 0;
+	border: none;
+	border-radius: 0;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	box-shadow: none !important;
+}
+
+.slick-header-column.ui-state-default {
+	height: inherit;
+	line-height: inherit;
+}
+
+.slick-headerrow-column.ui-state-default {
+	padding: 0px;
+}
+
+.slick-cell.editable {
+	background: white;
+	padding: 0;
+	height: 24px !important;
+}
+
+.slick-cell input,
+.slick-cell .picker-input,
+.slick-cell .ui-spinner,
+.slick-cell [x-field] {
+	outline: 0;
+	margin: 0;
+	padding: 0;
+	border-radius: 0;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100% !important;
+	min-width: inherit !important;
+	min-height: 23px;
+}
+
+.slick-cell .ui-spinner {
+	border: none;
+}
+
+.slick-cell input {
+	padding-left: 2px !important;
+}
+
+.slick-cell textarea {
+	border-radius: 0;
+	margin: 0;
+	outline: 0;
+}
+
+.slick-cell .text-item {
+	height: auto !important;
+}
+
+.slick-cell .picker-input > .picker-icons > i[class^=icon] {
+	padding-top: 2px !important;
+}
+
+.slick-cell input[type=checkbox],
+.slick-cell .form-item-container input[type=checkbox] {
+	width: auto;
+	height: auto;
+	margin-top: 0 !important;
+}
+
+.slick-editor-dropdown {
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	min-width: 250px;
+}
+
+.slick-cell.dirty {
+	background-image: url('../img/dirty.gif');
+	background-position: 0 0;
+	background-repeat: no-repeat;
+}
+
+.slick-cell .input-append > button {
+	display: none;
+}
+
+.slick-cell.editable * {
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	    -ms-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
+.slick-cell.button img {
+	cursor: pointer;
+}
+
+.slick-cell.button,
+.slick-cell-checkboxsel {
+	text-align: center;
+}
+
+.slick-cell-checkboxsel input {
+	width: inherit;
+}
+
+.slick-header-column.slick-cell-checkboxsel {
+	padding-top: 2px;
+}
+
+.slick-header-column.integer,
+.slick-header-column.decimal,
+.slick-cell.integer,
+.slick-cell.decimal {
+	text-align: right;
+}
+
+.slick-header-column.boolean,
+.slick-cell.boolean {
+	text-align: center;
+}
+
+.slick-headerrow input::-webkit-input-placeholder {
+	font-size: 11px;
+	font-style:italic
+}
+
+.slick-headerrow input::-moz-placeholder {
+	font-size: 11px;
+	font-style:italic
+}
+
+.slick-headerrow input::-ms-input-placeholder {
+	font-size: 11px;
+	font-style:italic
+}
+
+.slick-group-toggle {
+	width: 9px;
+	height: 9px;
+	margin-right: 5px;
+}
+
+.slick-group-toggle.collapsed {
+	background: url(../lib/slickgrid/images/expand.gif) no-repeat center center;
+}
+
+.slick-group-toggle.expanded {
+	background: url(../lib/slickgrid/images/collapse.gif) no-repeat center center;
+}
+
+.slick-group-text,
+.slick-group-count {
+	font-weight: bold;
+}
+
+.slick-group-count {
+	color: green;
+}
+
+.slick-group {
+
+}
+
+.slick-group-totals {
+	font-weight: bold;
+}
+
+.slick-sort-indicator {
+	margin-right: 18px;
+}
+
+.slick-header-menu {
+	z-index: 1150;
+	padding: 0;
+	min-width: 100px;
+
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	background: #fff;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+}
+
+.slick-header-menuitem {
+	padding: 2px 4px;
+	padding-right: 20px;
+	border: 1px solid transparent;
+}
+
+.slick-header-menu > div:first-of-type {
+	margin-top: 4px;
+}
+
+.slick-header-menu > div:last-of-type {
+	margin-bottom: 4px;
+}
+
+.slick-header-menuitem:hover {
+	color: #fff;
+	background-color: #0081c2;
+	
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
+	background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
+	background-image:    -moz-linear-gradient(top, #0088cc, #0077b3);
+	background-image:      -o-linear-gradient(top, #0088cc, #0077b3);
+	background-image:         linear-gradient(to bottom, #0088cc, #0077b3);
+	
+	background-repeat: repeat-x;
+}
+
+.slick-header-menusep {
+	margin: 4px 1px;
+	background-color: #e5e5e5;
+	border-bottom: 1px solid #ffffff;
+}
+
+.slick-header-menubutton {
+	width: 16px;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+
+.slick-cell > a {
+	line-height: 24px;
+	color: #0088cc;
+}
+
+.slick-cell.edit-icon i {
+	padding: 6px;
+	cursor: pointer;
+}

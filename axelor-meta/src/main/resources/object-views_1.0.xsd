@@ -1,0 +1,1608 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://apps.axelor.com/xml/ns/object-views"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified"
+  version="2.0" xmlns:tns="http://apps.axelor.com/xml/ns/object-views">
+  
+  <xsd:element name="object-views">
+    <xsd:complexType>
+      <xsd:choice minOccurs="1" maxOccurs="unbounded">
+        <xsd:element name="form" type="tns:FormView" />
+        <xsd:element name="grid" type="tns:GridView" />
+        <xsd:element name="tree" type="tns:TreeView" />
+        <xsd:element name="calendar" type="tns:CalendarView" />
+        <xsd:element name="chart" type="tns:ChartView" />
+        <xsd:element name="portal" type="tns:Portal" />
+        <xsd:element name="search" type="tns:Search" />
+        <xsd:element name="search-filters" type="tns:SearchFilters" />
+        <xsd:element name="menuitem" type="tns:MenuItem" />
+        <xsd:element name="selection" type="tns:Selection" />
+        <xsd:element name="action-menu" type="tns:ActionMenuItem" />
+        <xsd:element name="action-validate" type="tns:ActionValidate" />
+        <xsd:element name="action-condition" type="tns:ActionCondition" />
+        <xsd:element name="action-record" type="tns:ActionRecord" />
+        <xsd:element name="action-attrs" type="tns:ActionAttrs" />
+        <xsd:element name="action-method" type="tns:ActionMethod" />
+        <xsd:element name="action-view" type="tns:ActionView" />
+        <xsd:element name="action-ws" type="tns:ActionWS" />
+        <xsd:element name="action-import" type="tns:ActionImport" />
+        <xsd:element name="action-export" type="tns:ActionExport" />
+        <xsd:element name="action-group" type="tns:ActionGroup" />
+        <xsd:element name="action-workflow" type="tns:ActionWorkflow" />
+      </xsd:choice>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:complexType name="MenuItem">
+    <xsd:attribute name="name" type="xsd:string" use="required">
+      <xsd:annotation>
+        <xsd:documentation>
+          The name of the menu item. It serves as an identifier.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="title" type="xsd:string" use="required">
+      <xsd:annotation>
+        <xsd:documentation>
+          The display text of this menu item.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="parent" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          The name of the parent menu item.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="icon" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          The image for this menu item.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="action" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          The name of the action to perform when this menu is clicked.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="priority" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          Define menu sequence priority. Higher priority menu item shows up then the lower one.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="groups" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          Comma separated list of authorized groups.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="top" type="xsd:boolean">
+      <xsd:annotation>
+        <xsd:documentation>
+        Whether to show the menu item in top navigation menu.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="left" type="xsd:boolean">
+      <xsd:annotation>
+        <xsd:documentation>
+        Whether to show the menu item in the left navigation menu.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="mobile" type="xsd:boolean">
+      <xsd:annotation>
+        <xsd:documentation>
+        Whether to show the menu item in the mobile menu.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:complexType name="ActionMenuItem">
+    <xsd:complexContent>
+      <xsd:extension base="tns:MenuItem">
+        <xsd:attribute name="icon" use="prohibited"/>
+        <xsd:attribute name="groups" use="prohibited"/>
+        <xsd:attribute name="priority" use="prohibited"/>
+        <xsd:attribute name="category" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+              Category name to group the action menus.
+              Can be used to filter the toplevel action menus.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="Toolbar">
+    <xsd:sequence>
+      <xsd:element name="button" type="tns:Button" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="Menubar">
+    <xsd:sequence>
+      <xsd:element name="menu" maxOccurs="unbounded">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:choice maxOccurs="unbounded">
+              <xsd:element name="item" maxOccurs="unbounded">
+                <xsd:complexType>
+                  <xsd:attribute name="title" type="xsd:string" use="required"/>
+                  <xsd:attribute name="action" type="xsd:string" use="required"/>
+                  <xsd:attribute name="showIf" type="xsd:string"/>
+                  <xsd:attribute name="hideIf" type="xsd:string"/>
+                  <xsd:attribute name="readonlyIf" type="xsd:string"/>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="divider" minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:choice>
+          </xsd:sequence>
+          <xsd:attribute name="title" type="xsd:string" use="required"/>
+          <xsd:attribute name="icon" type="xsd:string"/>
+          <xsd:attribute name="showTitle" type="xsd:boolean"/>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="AbstractView" abstract="true">
+    <xsd:attribute name="title" type="xsd:string" use="required">
+      <xsd:annotation>
+        <xsd:documentation>
+          The display text.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  
+  <xsd:complexType name="ObjectView" abstract="true">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractView">
+        <xsd:attribute name="name" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+              The name of the view.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="model" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+              Name of the model class of this view.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="editable" type="xsd:boolean" />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="SimpleView" abstract="true">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractView">
+        <xsd:attribute name="name" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+               The name of the view.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="AbstractWidget" abstract="true" />
+
+  <xsd:complexType name="SimpleWidget" abstract="true">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractWidget">
+        <xsd:attribute name="title" type="xsd:string" />
+        <xsd:attribute name="showTitle" type="xsd:boolean" />
+        <xsd:attribute name="help" type="xsd:string" />
+        <xsd:attribute name="hidden" type="xsd:boolean" />
+        <xsd:attribute name="readonly" type="xsd:boolean" />
+        <xsd:attribute name="colSpan" type="xsd:int" />
+        <xsd:attribute name="css" type="xsd:string"/>
+        <xsd:attribute name="showIf" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+            Show if the given JavaScript expression is true.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="hideIf" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+            Hide if the given JavaScript expression is true.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="readonlyIf" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+            Readonly if the given JavaScript expression is true.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:anyAttribute />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="AbstractContainer" abstract="true">
+    <xsd:complexContent>
+      <xsd:extension base="tns:SimpleWidget">
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="rowSpan" type="xsd:int" />
+        <xsd:attribute name="height">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:pattern value="\d+(%|px|pt|em)?"></xsd:pattern>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="SimpleContainer" abstract="true">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractContainer">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+          <xsd:group ref="tns:FormWidgets" />
+        </xsd:choice>
+        <xsd:attribute name="cols" type="xsd:int" />
+        <xsd:attribute name="colWidths" type="xsd:string" />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:simpleType name="HiliteStyle">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="default"></xsd:enumeration>
+      <xsd:enumeration value="primary"></xsd:enumeration>
+      <xsd:enumeration value="warning"></xsd:enumeration>
+      <xsd:enumeration value="success"></xsd:enumeration>
+      <xsd:enumeration value="danger"></xsd:enumeration>
+      <xsd:enumeration value="info"></xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="Hilite">
+    <xsd:attribute name="color" type="tns:HiliteStyle">
+      <xsd:annotation>
+        <xsd:documentation>Highlight text color style</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="background" type="tns:HiliteStyle">
+      <xsd:annotation>
+        <xsd:documentation>Highlight background color style</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="strong" type="xsd:boolean">
+      <xsd:annotation>
+        <xsd:documentation>Highlight text with strong font style</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="if" type="xsd:string" use="required">
+      <xsd:annotation>
+        <xsd:documentation>Highlight condition</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  
+  <xsd:complexType name="Selection">
+    <xsd:sequence maxOccurs="unbounded">
+      <xsd:element name="option">
+        <xsd:complexType>
+          <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+              <xsd:attribute name="value" type="xsd:string" use="required"/>
+            </xsd:extension>
+          </xsd:simpleContent>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string" use="required"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="GridView">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ObjectView">
+        <xsd:sequence>
+          <xsd:element name="toolbar" type="tns:Toolbar" minOccurs="0"/>
+          <xsd:element name="menubar" type="tns:Menubar" minOccurs="0"/>
+          <xsd:element name="hilite" type="tns:Hilite" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="field" type="tns:GridField" maxOccurs="unbounded" />
+          <xsd:element name="button" type="tns:Button" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="expandable" type="xsd:boolean" />
+        <xsd:attribute name="orderBy" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+              List of comma separated field names optionally
+              prefix with `-` to order by DESC.
+              
+              For example:
+              
+              orderBy="name,-age"
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="groupBy" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+            List of comma separated field names to group the data items.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="edit-icon" type="xsd:boolean" default="true">
+          <xsd:annotation>
+            <xsd:documentation>Whether to show edit icon.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="FormView">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ObjectView">
+        <xsd:sequence>
+          <xsd:element name="toolbar" type="tns:Toolbar" minOccurs="0"/>
+          <xsd:element name="menubar" type="tns:Menubar" minOccurs="0"/>
+          <xsd:choice minOccurs="0" maxOccurs="unbounded">
+            <xsd:group ref="tns:FormWidgets" />
+          </xsd:choice>
+        </xsd:sequence>
+        <xsd:attribute name="cols" type="xsd:int" />
+        <xsd:attribute name="colWidths" type="xsd:string" />
+        <xsd:attribute name="onLoad" type="xsd:string" />
+        <xsd:attribute name="onSave" type="xsd:string" />
+        <xsd:attribute name="onNew" type="xsd:string" />
+        <xsd:attribute name="helpLink" type="xsd:string" />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="TreeView">
+    <xsd:complexContent>
+      <xsd:extension base="tns:SimpleView">
+        <xsd:sequence>
+          <xsd:element name="column" type="tns:SearchField" maxOccurs="unbounded">
+            <xsd:annotation>
+              <xsd:documentation>
+                Define a tree column.
+              </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="node" maxOccurs="unbounded">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="field" maxOccurs="unbounded">
+                  <xsd:annotation>
+                    <xsd:documentation>
+                      Specify a model field name to read. Can be mapped to a column.
+                    </xsd:documentation>
+                  </xsd:annotation>
+                  <xsd:complexType>
+                    <xsd:attribute name="name" type="xsd:string" use="required">
+                      <xsd:annotation>
+                        <xsd:documentation>
+                        The field name
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="as" type="xsd:string">
+                      <xsd:annotation>
+                        <xsd:documentation>
+                        Map the field with a column.
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="selection" type="xsd:string" />
+                  </xsd:complexType>
+                </xsd:element>
+              </xsd:sequence>
+              <xsd:attribute name="model" type="xsd:string" use="required">
+                <xsd:annotation>
+                <xsd:documentation>
+                The model name.
+                </xsd:documentation>
+                </xsd:annotation>
+              </xsd:attribute>
+              <xsd:attribute name="parent" type="xsd:string">
+                <xsd:annotation>
+                  <xsd:documentation>
+                  The name of the parent field.
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:attribute>
+              <xsd:attribute name="onClick" type="xsd:string">
+                <xsd:annotation>
+                  <xsd:documentation>
+                  An action to execute on click event. The current node record is
+                  passed as context the context handler.
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:attribute>
+              <xsd:attribute name="draggable" type="xsd:boolean">
+                <xsd:annotation>
+                  <xsd:documentation>
+                  Whether the node can be draggable.
+                  &lt;br&gt;&lt;br&gt;
+                  If draggable and parent field is given then node's parent can be
+                  changed with drag and drop feature.
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:attribute>
+              <xsd:attribute name="domain" type="xsd:string">
+                <xsd:annotation>
+                  <xsd:documentation>
+                  The domain for the node records.
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:attribute>
+              <xsd:attribute name="orderBy" type="xsd:string">
+                <xsd:annotation>
+                  <xsd:documentation>
+                  Sort the node results by the given field.
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:attribute>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="showHeader" type="xsd:boolean">
+          <xsd:annotation>
+            <xsd:documentation>
+            Specify whether to show the column header.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="CalendarView">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ObjectView">
+        <xsd:sequence>
+          <xsd:element name="field" maxOccurs="unbounded">
+            <xsd:complexType>
+              <xsd:complexContent>
+                <xsd:extension base="tns:SimpleWidget">
+                  <xsd:attribute name="name" type="xsd:string" use="required" />
+                  <xsd:attribute name="colSpan" use="prohibited"/>
+                  <xsd:attribute name="showTitle" use="prohibited"/>
+                  <xsd:attribute name="hidden" use="prohibited"/>
+                  <xsd:attribute name="readonly" use="prohibited"/>
+                </xsd:extension>
+              </xsd:complexContent>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="eventStart" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+            Name of the field of type date/datetime to be used as event start time.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="eventStop" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+            Name of the field of type date/datetme to be used as event stop time.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="eventLength" default="1">
+          <xsd:annotation>
+            <xsd:documentation>
+            If eventStop is not given, the length of an event in hour (default is 1).
+            </xsd:documentation>
+          </xsd:annotation>
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:integer">
+              <xsd:minInclusive value="1"/>
+              <xsd:maxInclusive value="24"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="colorBy" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+            Name of the field to be used to colorize the events.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="mode" default="month">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string" >
+              <xsd:enumeration value="month"/>
+              <xsd:enumeration value="week"/>
+              <xsd:enumeration value="day"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="Portal">
+    <xsd:complexContent>
+      <xsd:extension base="tns:SimpleView">
+        <xsd:sequence maxOccurs="unbounded">
+          <xsd:element name="portlet" type="tns:Portlet" />
+        </xsd:sequence>
+        <xsd:attribute name="cols" type="xsd:integer"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="Portlet">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractContainer">
+        <xsd:attribute name="action" type="xsd:string" use="required"/>
+        <xsd:attribute name="canSearch" type="xsd:boolean">
+          <xsd:annotation>
+            <xsd:documentation>
+            Whether to enable search header on grid view portlet.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="ChartView">
+    <xsd:complexContent>
+      <xsd:extension base="tns:SimpleView">
+        <xsd:sequence>
+          <xsd:element name="dataset">
+            <xsd:annotation>
+              <xsd:documentation>
+              Specify the dataset using JPQL or SQL query.
+              The query select names should be assgined aliases.
+              </xsd:documentation>
+            </xsd:annotation>
+            <xsd:complexType>
+              <xsd:simpleContent>
+                <xsd:extension base="xsd:string">
+                  <xsd:attribute name="type" use="required">
+                    <xsd:simpleType>
+                      <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="jpql"/>
+                        <xsd:enumeration value="sql"/>
+                      </xsd:restriction>
+                    </xsd:simpleType>
+                  </xsd:attribute>
+                </xsd:extension>
+              </xsd:simpleContent>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="category">
+            <xsd:complexType>
+              <xsd:attribute name="key" type="xsd:string" use="required"/>
+              <xsd:attribute name="title" type="xsd:string"/>
+              <xsd:attribute name="type">
+                <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="number"/>
+                    <xsd:enumeration value="decimal"/>
+                    <xsd:enumeration value="date"/>
+                    <xsd:enumeration value="time"/>
+                    <xsd:enumeration value="month"/>
+                    <xsd:enumeration value="year"/>
+                    <xsd:enumeration value="text"/>
+                  </xsd:restriction>
+                </xsd:simpleType>
+              </xsd:attribute>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="series" maxOccurs="unbounded">
+            <xsd:annotation>
+              <xsd:documentation>
+              A chart data series. You must provide either `key` or `expr` or both.
+              </xsd:documentation>
+            </xsd:annotation>
+            <xsd:complexType>
+              <xsd:attribute name="key" type="xsd:string" use="required"/>
+              <xsd:attribute name="groupBy" type="xsd:string"/>
+              <xsd:attribute name="title" type="xsd:string"/>
+              <xsd:attribute name="type">
+                <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="pie"/>
+                    <xsd:enumeration value="bar"/>
+                    <xsd:enumeration value="hbar"/>
+                    <xsd:enumeration value="line"/>
+                    <xsd:enumeration value="area"/>
+                    <xsd:enumeration value="radar"/>
+                    <xsd:enumeration value="gauge"/>
+                    <xsd:enumeration value="scatter"/>
+                  </xsd:restriction>
+                </xsd:simpleType>
+              </xsd:attribute>
+              <xsd:attribute name="side">
+                <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="left"/>
+                    <xsd:enumeration value="right"/>
+                  </xsd:restriction>
+                </xsd:simpleType>
+              </xsd:attribute>
+              <xsd:attribute name="aggregate">
+                <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="sum"/>
+                    <xsd:enumeration value="count"/>
+                    <xsd:enumeration value="average"/>
+                    <xsd:enumeration value="maximum"/>
+                    <xsd:enumeration value="minimum"/>
+                    <xsd:enumeration value="variance"/>
+                    <xsd:enumeration value="deviation"/>
+                  </xsd:restriction>
+                </xsd:simpleType>
+              </xsd:attribute>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="config" maxOccurs="unbounded" minOccurs="0">
+            <xsd:complexType>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="value" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="stacked" type="xsd:boolean"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="SearchFilters">
+    <xsd:complexContent>
+      <xsd:extension base="tns:SimpleView">
+        <xsd:sequence>
+          <xsd:element name="filter" type="tns:SearchFilter" maxOccurs="unbounded">
+            <xsd:annotation>
+              <xsd:documentation>
+              Define a search filter.
+              </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="model" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+              The model name.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="SearchFilter">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractWidget">
+        <xsd:sequence>
+          <xsd:element name="domain" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>
+              The domain for the filter.
+              </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="context" minOccurs="0" maxOccurs="unbounded">
+            <xsd:annotation>
+              <xsd:documentation>
+              Define a context item for the domain param.
+              </xsd:documentation>
+            </xsd:annotation>
+            <xsd:complexType>
+              <xsd:attribute name="name" type="xsd:string" use="required">
+                <xsd:annotation>
+                  <xsd:documentation>
+                    Name of the context variable.
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:attribute>
+              <xsd:attribute name="value" type="xsd:string" use="required">
+                <xsd:annotation>
+                  <xsd:documentation>
+                  The context value.
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:attribute>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="title" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="Search">
+    <xsd:complexContent>
+      <xsd:extension base="tns:SimpleView">
+        <xsd:sequence>
+          <xsd:element name="search-fields">
+            <xsd:complexType>
+              <xsd:choice maxOccurs="unbounded">
+                <xsd:element name="field" type="tns:SearchField"/>
+              </xsd:choice>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="result-fields">
+            <xsd:complexType>
+              <xsd:choice maxOccurs="unbounded">
+                <xsd:element name="field" type="tns:SearchField"/>
+              </xsd:choice>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="select" type="tns:SearchSelect" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="limit" type="xsd:int" use="required" />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="SearchField">
+    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <xsd:attribute name="title" type="xsd:string" />
+    <xsd:attribute name="type">
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="string"/>
+          <xsd:enumeration value="integer"/>
+          <xsd:enumeration value="boolean"/>
+          <xsd:enumeration value="decimal"/>
+          <xsd:enumeration value="datetime"/>
+          <xsd:enumeration value="date"/>
+          <xsd:enumeration value="reference"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+    <xsd:attribute name="target" type="xsd:string" />
+    <xsd:attribute name="widget" type="xsd:string" />
+  </xsd:complexType>
+  
+  <xsd:complexType name="SearchSelect">
+    <xsd:sequence>
+      <xsd:element name="field" maxOccurs="unbounded">
+        <xsd:complexType>
+          <xsd:attribute name="name" type="xsd:string" use="required"/>
+          <xsd:attribute name="as" type="xsd:string" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="where">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="input" maxOccurs="unbounded">
+              <xsd:complexType>
+                <xsd:attribute name="name" type="xsd:string" use="required"/>
+                <xsd:attribute name="field" type="xsd:string" use="required"/>
+                <xsd:attribute name="matchStyle" default="equals">
+                   <xsd:simpleType>
+                     <xsd:restriction base="xsd:string">
+                       <xsd:enumeration value="startsWith"/>
+                       <xsd:enumeration value="endsWith"/>
+                       <xsd:enumeration value="contains"/>
+                       <xsd:enumeration value="equals"/>
+                       <xsd:enumeration value="notEquals"/>
+                       <xsd:enumeration value="lessThan"/>
+                       <xsd:enumeration value="greaterThan"/>
+                       <xsd:enumeration value="lessOrEqual"/>
+                       <xsd:enumeration value="greaterOrEqual"/>
+                     </xsd:restriction>
+                   </xsd:simpleType>
+                 </xsd:attribute>
+                 <xsd:attribute name="if" type="xsd:string"/>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+          <xsd:attribute name="match" default="all">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:enumeration value="all"/>
+                <xsd:enumeration value="any"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="model" type="xsd:string" use="required"/>
+    <xsd:attribute name="title" type="xsd:string"/>
+    <xsd:attribute name="orderBy" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          List of comma separated field names optionally
+          prefix with `-` to order by DESC.
+          
+          For example:
+          
+          orderBy="name,-age"
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="if" type="xsd:string"/>
+    <xsd:attribute name="form-view" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          The form view to be used to edit the selected record.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="grid-view" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          The grid view to be used to list the selected records.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+    
+  <xsd:complexType name="Group">
+    <xsd:complexContent>
+      <xsd:extension base="tns:SimpleContainer">
+        <xsd:attribute name="canCollapse" type="xsd:boolean" />
+        <xsd:attribute name="collapseIf" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+            A JavaScript boolean expression against the current form values.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="Page">
+    <xsd:complexContent>
+      <xsd:restriction base="tns:SimpleContainer">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+          <xsd:group ref="tns:FormWidgets" />
+        </xsd:choice>
+        <xsd:attribute name="title" type="xsd:string" use="required"/>
+        <xsd:attribute name="icon" type="xsd:string"/>
+        <xsd:attribute name="onSelect" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+              The actions will be executed after select the page.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="Notebook">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractContainer">
+        <xsd:sequence maxOccurs="unbounded">
+          <xsd:element name="page" type="tns:Page" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="Break">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractWidget" />
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="Spacer">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractWidget">
+        <xsd:attribute name="colSpan" type="xsd:int"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="Separator">
+    <xsd:complexContent>
+      <xsd:restriction base="tns:SimpleWidget">
+        <xsd:attribute name="showTitle" use="prohibited"/>
+        <xsd:attribute name="hidden" use="prohibited" />
+        <xsd:attribute name="help" use="prohibited" />
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="Label">
+    <xsd:complexContent>
+      <xsd:extension base="tns:SimpleWidget">
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="showTitle" use="prohibited" />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="Button">
+    <xsd:complexContent>
+      <xsd:restriction base="tns:SimpleWidget">
+        <xsd:attribute name="name" type="xsd:string" use="required" />
+        <xsd:attribute name="icon" type="xsd:string" />
+        <xsd:attribute name="iconHover" type="xsd:string"/>
+        <xsd:attribute name="link" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+            If specified then the button is rendered as a link.
+            Use empty value if you only need a link effect and
+            perform actual action with `onClick`.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="prompt" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+              Show a confirmation message before performing client action.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="showTitle" use="prohibited" />
+        <xsd:attribute name="onClick" type="xsd:string" />
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="Field">
+    <xsd:complexContent>
+      <xsd:extension base="tns:SimpleWidget">
+        <xsd:all>
+          <xsd:element name="hilite" type="tns:Hilite" minOccurs="0" >
+            <xsd:annotation>
+              <xsd:documentation>
+                Hilite the field with given color/background-color combination.
+              </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="grid" type="tns:GridView" minOccurs="0" />
+          <xsd:element name="form" type="tns:FormView" minOccurs="0" />
+        </xsd:all>
+        <xsd:attribute name="name" type="xsd:string" use="required" />
+        <xsd:attribute name="placeholder" type="xsd:string" />
+        <xsd:attribute name="widget" type="xsd:string" />
+        <xsd:attribute name="selection" type="xsd:string"/>
+        <xsd:attribute name="required" type="xsd:boolean" />
+        <xsd:attribute name="requiredIf" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+            A JavaScript boolean expression against the current form values.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="validIf" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+            A JavaScript boolean expression against the current form values.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="canSelect" type="xsd:boolean">
+          <xsd:annotation>
+            <xsd:documentation>
+              If this is a relational field, specify whether to allow selecting 
+              existing record(s). Generally, used with NestedEditor widget.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="canNew" type="xsd:boolean">
+          <xsd:annotation>
+            <xsd:documentation>
+              If this is a relational field, specify whether to allow creating new record(s).
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="canView" type="xsd:boolean">
+          <xsd:annotation>
+            <xsd:documentation>
+              If this is a relational field, specify whether to allow view the record(s).
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="canRemove" type="xsd:boolean">
+          <xsd:annotation>
+            <xsd:documentation>
+              If this is a relational field, specify whether to allow removing record(s).
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="edit-window">
+          <xsd:annotation>
+            <xsd:documentation>
+              Display mode of edit window for relational fields. 
+            </xsd:documentation>
+          </xsd:annotation>
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="self"/>
+              <xsd:enumeration value="blank"/>
+              <xsd:enumeration value="popup"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="form-view" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+              Specify the form view for relational field.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="grid-view" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+              Specify the grid view for relational field.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="summary-view" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+              Specify the summary view (form) for relational field.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="onChange" type="xsd:string" />
+        <xsd:attribute name="onSelect" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+              For relational fields only. The actions will be executed
+              just before the selection window appears.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="domain" type="xsd:string" />
+        <xsd:attribute name="min" type="xsd:decimal">
+          <xsd:annotation>
+            <xsd:documentation>
+              Lowest bound of the value. In case of string, it's minimum length.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="max" type="xsd:decimal">
+          <xsd:annotation>
+            <xsd:documentation>
+              Upper bound of the value. In case of string, it's maximum length.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="pattern" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+            Validate against the given pattern.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="fgColor" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+              Foreground (text) Color
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="bgColor" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+              Background Color
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+       <xsd:attribute name="export" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>
+            Whether to export the documentation of the field.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="documentation" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>
+            Whether to export the documentation of the M2O/O2M/M2M.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="FormInclude">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractWidget">
+        <xsd:attribute name="view" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+            Name of an existing view.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="from" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+            Name of the module from which the view should be included.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="GridField">
+    <xsd:complexContent>
+      <xsd:extension base="tns:Field">
+        <xsd:attribute name="width" type="xsd:integer"/>
+        <xsd:attribute name="aggregate">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="sum"/>
+              <xsd:enumeration value="avg"/>
+              <xsd:enumeration value="min"/>
+              <xsd:enumeration value="max"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="canSelect" use="prohibited"/>
+        <xsd:attribute name="edit-window" use="prohibited"/>
+        <xsd:attribute name="summary-view" use="prohibited"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:group name="FormWidgets">
+    <xsd:choice>
+      <xsd:element name="include" type="tns:FormInclude"/>
+      <xsd:element name="portlet" type="tns:Portlet" />
+      <xsd:element name="group" type="tns:Group" />
+      <xsd:element name="notebook" type="tns:Notebook" />
+      <xsd:element name="field" type="tns:Field" />
+      <xsd:element name="break" type="tns:Break" >
+        <xsd:annotation>
+          <xsd:documentation>
+            Break previous row and start new one.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="spacer" type="tns:Spacer" >
+        <xsd:annotation>
+          <xsd:documentation>
+            An empty place holder. It can be used to better layout components.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="separator" type="tns:Separator" >
+        <xsd:annotation>
+          <xsd:documentation>
+            Separator can be used to define boundry.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="label" type="tns:Label" />
+      <xsd:element name="button" type="tns:Button" />
+    </xsd:choice>
+  </xsd:group>
+  
+  <xsd:complexType name="AbstractAction" abstract="true">
+    <xsd:attribute name="name" type="xsd:string" use="required"/>
+  </xsd:complexType>
+  <xsd:complexType name="AbstractAct" abstract="true">
+    <xsd:attribute name="if" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:complexType name="ActMessage">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractAct">
+        <xsd:attribute name="message" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ActField">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractAct">
+        <xsd:attribute name="name" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+              Comma seperated list of field names
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="expr" type="xsd:string" use="required"/>
+        <xsd:attribute name="copy" type="xsd:boolean">
+          <xsd:annotation>
+            <xsd:documentation>
+              Use the result of `expr` by copy.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ActAttribute">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractAct">
+        <xsd:attribute name="for" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+              Comma seperated list of field names
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+        <xsd:attribute name="expr" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ActCall">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractAct">
+        <xsd:attribute name="class" type="xsd:string" use="required"/>
+        <xsd:attribute name="method" type="xsd:string" use="required"/>
+        <xsd:attribute name="if" use="prohibited"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ActView">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractAct">
+        <xsd:attribute name="type" type="xsd:string" use="required"/>
+        <xsd:attribute name="name" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ActContext">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ActField"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ActAction">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractAct">
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="ActionValidate">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractAction">
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="error" type="tns:ActMessage"/>
+          <xsd:element name="alert" type="tns:ActMessage"/>
+        </xsd:choice>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="ActionRecord">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractAction">
+        <xsd:sequence>
+          <xsd:element name="field" type="tns:ActField" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="model" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+              The fully qualified class name of the entity type.
+              Should be provided when creating default value record.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="search" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+              Search for a record before creating new one.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="ref" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+              Reference to the existing record from context.
+              This attribute gets preference over 'search' attribute
+              if used along with 'search'.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="copy" type="xsd:boolean">
+          <xsd:annotation>
+            <xsd:documentation>
+              Whether to create a copy of the searched/referenced record
+              instead of referencing it.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="ActionAttrs">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractAction">
+        <xsd:sequence>
+          <xsd:element name="attribute" type="tns:ActAttribute" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>  
+  
+  <xsd:complexType name="ActionMethod">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractAction">
+        <xsd:sequence>
+          <xsd:element name="call" type="tns:ActCall">
+            <xsd:annotation>
+              <xsd:documentation>
+                <![CDATA[
+                Controller method call.<br><br>
+                
+                The signature of the controller method should be:<br><br>
+
+                <code>
+                  void someMethod(ActionRequest request, ActionResponse response)
+                </code>
+                ]]>
+              </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="ActionView">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractAction">
+        <xsd:sequence>
+          <xsd:element name="view" type="tns:ActView" minOccurs="0" maxOccurs="unbounded"/>
+          <xsd:element name="view-param" minOccurs="0" maxOccurs="unbounded">
+            <xsd:annotation>
+              <xsd:documentation>
+              Additional view parameters (anything).
+              The client view implementation utilizes these params.
+              </xsd:documentation>
+            </xsd:annotation>
+            <xsd:complexType>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="value" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="domain" type="xsd:string" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>
+                The domain filter to be applied while loading entity records.
+              </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="context" type="tns:ActContext" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="title" type="xsd:string" use="required"/>
+        <xsd:attribute name="icon" type="xsd:string"/>
+        <xsd:attribute name="model" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+            If this is an object view action then provide the fully qualified name of the object model.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+    <xsd:complexType name="ActionWS">
+      <xsd:annotation>
+        <xsd:documentation>
+          The action-ws can be used to call any soap web service.
+          Multiple actions can be called in sequence. The result
+          is returned as a collection string values returned by
+          each actions respectively.
+        </xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent>
+        <xsd:extension base="tns:AbstractAction">
+          <xsd:sequence>
+            <xsd:element name="action" maxOccurs="unbounded">
+              <xsd:complexType>
+                <xsd:complexContent>
+                  <xsd:extension base="tns:ActAction">
+                    <xsd:attribute name="template" type="xsd:string" use="required">
+                      <xsd:annotation>
+                        <xsd:documentation>Template file.</xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:attribute>
+                  </xsd:extension>
+                </xsd:complexContent>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+          <xsd:attribute name="service" type="xsd:string" use="required">
+            <xsd:annotation>
+              <xsd:documentation>
+                Service URL or reference to another action-ws with service is set to some url.
+                In that case, the referenced action is called prior to this one. This allows
+                to perform some intial actions like `login`.
+              </xsd:documentation>
+            </xsd:annotation>
+          </xsd:attribute>
+          <xsd:attribute name="connect-timeout" type="xsd:int" default="30">
+            <xsd:annotation>
+              <xsd:documentation>
+              Connection timeout in seconds (default 60 seconds).
+              </xsd:documentation>
+            </xsd:annotation>
+          </xsd:attribute>
+          <xsd:attribute name="read-timeout" type="xsd:int" default="120">
+            <xsd:annotation>
+              <xsd:documentation>
+              Read timeout in seconds (default 300 seconds).
+              </xsd:documentation>
+            </xsd:annotation>
+          </xsd:attribute>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="ActionImport">
+      <xsd:annotation>
+        <xsd:documentation>
+          The action-import can be used to perform data import from xml data stream.
+        </xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent>
+        <xsd:extension base="tns:AbstractAction">
+          <xsd:sequence>
+            <xsd:element name="import" maxOccurs="unbounded">
+              <xsd:complexType>
+                <xsd:attribute name="file" type="xsd:string" use="required">
+                  <xsd:annotation>
+                    <xsd:documentation>XML input file name as configured in config file.</xsd:documentation>
+                  </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="provider" type="xsd:string" use="required">
+                  <xsd:annotation>
+                    <xsd:documentation>
+                      The data stream provider. The value should be a reference
+                      to another action that returns the stream. Generally,
+                      an `action-ws` reference. 
+                    </xsd:documentation>
+                  </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="name" type="xsd:string">
+                  <xsd:annotation>
+                    <xsd:documentation>
+                      Put the data as the given name in the result map.
+                    </xsd:documentation>
+                  </xsd:annotation>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+          <xsd:attribute name="config" type="xsd:string" use="required">
+            <xsd:annotation>
+              <xsd:documentation>XML data import config file.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:attribute>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="ActionExport">
+      <xsd:complexContent>
+        <xsd:extension base="tns:AbstractAction">
+            <xsd:sequence>
+              <xsd:element name="export" maxOccurs="unbounded">
+                <xsd:annotation>
+                  <xsd:documentation>
+                  An export task.
+                  </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                 <xsd:complexContent>
+                   <xsd:extension base="tns:AbstractAct">
+                     <xsd:attribute name="name" type="xsd:string" use="required">
+                       <xsd:annotation>
+                         <xsd:documentation>Output file name.</xsd:documentation>
+                       </xsd:annotation>
+                     </xsd:attribute>
+                     <xsd:attribute name="template" type="xsd:string" use="required">
+                       <xsd:annotation>
+                         <xsd:documentation>The template to be used to generate output file.</xsd:documentation>
+                       </xsd:annotation>
+                     </xsd:attribute>
+                    </xsd:extension>
+                  </xsd:complexContent>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="output" type="xsd:string">
+              <xsd:annotation>
+                <xsd:documentation>
+                Override the default output directory.
+                Special keywords ${name}, ${date}, ${datetime} can be
+                used to organize the output directory.
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:attribute>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="ActionCondition">
+      <xsd:annotation>
+        <xsd:documentation>
+        The action-condition can be used to declare validation conditions.
+        </xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent>
+        <xsd:extension base="tns:AbstractAction">
+          <xsd:sequence>
+            <xsd:element name="check" maxOccurs="unbounded">
+              <xsd:annotation>
+                <xsd:documentation>
+                  Define a check condition. The condition expression can be
+                  specified as a string value or required field condition
+                  can be defined with `field` attribute.
+                </xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:complexContent>
+                  <xsd:extension base="tns:AbstractAct">
+                    <xsd:attribute name="field" type="xsd:string">
+                      <xsd:annotation>
+                        <xsd:documentation>
+                          Check whether the field value exists.
+                          If not the field is marked as required.
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="error" type="xsd:string">
+                      <xsd:annotation>
+                        <xsd:documentation>
+                          Specify the error message.
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:attribute>
+                  </xsd:extension>
+                </xsd:complexContent>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="ActionGroup">
+      <xsd:complexContent>
+        <xsd:extension base="tns:AbstractAction">
+          <xsd:sequence>
+            <xsd:element name="action" type="tns:ActAction" maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="ActionWorkflow">
+      <xsd:complexContent>
+        <xsd:extension base="tns:AbstractAction">
+	        <xsd:attribute name="model" type="xsd:string" use="required">
+	          <xsd:annotation>
+	            <xsd:documentation>
+	              The fully qualified class name of the entity type.
+	              Should be provided when creating default value record.
+	            </xsd:documentation>
+	          </xsd:annotation>
+	        </xsd:attribute>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <groupId>com.axelor</groupId>
+    <artifactId>axelor-parent</artifactId>
+    <version>0.9.0-SNAPSHOT</version>
+    <relativePath>../axelor-parent/pom.xml</relativePath>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>axelor-maven-plugin</artifactId>
+
+  <name>Axelor :: Maven Plugin</name>
+  <description>Maven plugin to generate code from XML definitions.</description>
+
+  <packaging>maven-plugin</packaging>
+
+  <dependencies>
+    <!-- module specific dependencies -->
+
+    <dependency>
+      <groupId>com.axelor</groupId>
+      <artifactId>axelor-tools</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-project</artifactId>
+      <version>2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>2.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.maven.plugin-testing</groupId>
+      <artifactId>maven-plugin-testing-harness</artifactId>
+      <version>1.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <!-- module specific build configuration -->
+  </build>
+
+</project>

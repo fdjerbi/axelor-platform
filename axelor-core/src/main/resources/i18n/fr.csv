@@ -1,0 +1,5 @@
+"domain","name","type","title","title_t","help","help_t"
+"axelor-core","","other","You are not authorized to create this resource.","Vous n'êtes pas autorisé à créer cette ressource.","",""
+"axelor-core","","other","You are not authorized to read this resource.","Vous n'êtes pas autorisé à lire cette ressource.","",""
+"axelor-core","","other","You are not authorized to remove this resource.","Vous n'êtes pas autorisé à supprimer cette ressource.","",""
+"axelor-core","","other","You are not authorized to update this resource.","Vous n'êtes pas autorisé à modifier cette ressource.","",""

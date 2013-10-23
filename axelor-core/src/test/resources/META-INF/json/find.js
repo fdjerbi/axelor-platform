@@ -1,0 +1,53 @@
+{
+    "model" : "com.axelor.test.db.Contact",
+    "fields": ["fullName", "email"],
+    "data":{
+    	"_domain": "self.title.code = 'mr'",
+        "operator":"and", 
+        "criteria":[
+            {
+                "fieldName":"code", 
+                "operator":"equals", 
+                "value":"er"
+            }, 
+            {
+                "fieldName":"name", 
+                "operator":"equals", 
+                "value":"er"
+            }, 
+            {
+                "operator":"or", 
+                "criteria":[
+                    {
+                        "fieldName":"name", 
+                        "operator":"equals", 
+                        "value":"we"
+                    }, 
+                    {
+                        "fieldName":"code", 
+                        "operator":"between", 
+                        "start":"er", 
+                        "end":"wer"
+                    }
+                ]
+            },
+            {
+                "operator":"or", 
+                "criteria":[
+                    {
+                        "fieldName":"name", 
+                        "operator":"equals", 
+                        "value":"we"
+                    }, 
+                    {
+                        "fieldName":"lang", 
+                        "operator":"in", 
+                        "value": ["en", "hi"]
+                    }
+                ]
+            }
+        ]
+    }, 
+    "offset":0, 
+    "limit":75
+}

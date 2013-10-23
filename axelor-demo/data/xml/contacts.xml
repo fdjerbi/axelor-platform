@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+    Copyright (c) 2012-2013 Axelor. All Rights Reserved.
+
+    The contents of this file are subject to the Common Public
+    Attribution License Version 1.0 (the “License”); you may not use
+    this file except in compliance with the License. You may obtain a
+    copy of the License at:
+
+    http://license.axelor.com/.
+
+    The License is based on the Mozilla Public License Version 1.1 but
+    Sections 14 and 15 have been added to cover use of software over a
+    computer network and provide for limited attribution for the
+    Original Developer. In addition, Exhibit A has been modified to be
+    consistent with Exhibit B.
+
+    Software distributed under the License is distributed on an “AS IS”
+    basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
+    the License for the specific language governing rights and limitations
+    under the License.
+
+    The Original Code is part of "Axelor Business Suite", developed by
+    Axelor exclusively.
+
+    The Original Developer is the Initial Developer. The Initial Developer of
+    the Original Code is Axelor.
+
+    All portions of the code written by Axelor are
+    Copyright (c) 2012-2013 Axelor. All Rights Reserved.
+
+-->
+<address-book xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <title code="mr" name="Mr." />
+  <title code="mrs" name="Mrs." />
+  <title code="miss" name="Miss" />
+  <title code="dr" name="Dr." />
+
+  <circle code="family" name="Family" />
+  <circle code="friends" name="Friends" />
+  <circle code="business" name="Business" />
+  
+  <company code="my.co" name="My Company" />
+  <company code="axelor.com" name="Axelor SAS" />
+  <company code="axelor.co.in" name="Axelor India" parent="axelor.com" />
+
+  <country code="FR" name="France" />
+  <country code="DE" name="Germany" />
+  <country code="ES" name="Spain" />
+  <country code="UK" name="United Kingdom" />
+  <country code="US" name="United States" />
+  <country code="CH" name="China" />
+  <country code="IN" name="India" />
+  <country code="BR" name="Brazil" />
+  
+  <contact title="mr">
+    <first-name>John</first-name>
+    <last-name>Smith</last-name>
+    <email>john.smith@gmail.com</email>
+    <addresses>
+      <address>
+        <street1>My</street1>
+        <street2>Home</street2>
+        <city>Paris</city>
+        <country>FR</country>
+      </address>
+      <address>
+        <street1>My</street1>
+        <street2>Office</street2>
+        <city>London</city>
+        <country>UK</country>
+      </address>
+    </addresses>
+  </contact>
+  <contact title="mr">
+    <first-name>Tin</first-name>
+    <last-name>Tin</last-name>
+    <email>tin.tin@gmail.com</email>
+    <addresses>
+      <address>
+        <street1>My</street1>
+        <street2>Home</street2>
+        <city>Paris</city>
+        <country>FR</country>
+      </address>
+      <address>
+        <street1>My</street1>
+        <street2>Office</street2>
+        <city>London</city>
+        <country>UK</country>
+      </address>
+    </addresses>
+  </contact>
+  <contact title="miss">
+    <first-name>Teen</first-name>
+    <last-name>Teen</last-name>
+    <email>teen.teen@gmail.com</email>
+    <addresses>
+      <address>
+        <street1>My</street1>
+        <street2>Home</street2>
+        <city>Paris</city>
+        <country>FR</country>
+      </address>
+    </addresses>
+  </contact>
+</address-book>

@@ -1,0 +1,116 @@
+/**
+ * Copyright (c) 2012-2013 Axelor. All Rights Reserved.
+ *
+ * The contents of this file are subject to the Common Public
+ * Attribution License Version 1.0 (the “License”); you may not use
+ * this file except in compliance with the License. You may obtain a
+ * copy of the License at:
+ *
+ * http://license.axelor.com/.
+ *
+ * The License is based on the Mozilla Public License Version 1.1 but
+ * Sections 14 and 15 have been added to cover use of software over a
+ * computer network and provide for limited attribution for the
+ * Original Developer. In addition, Exhibit A has been modified to be
+ * consistent with Exhibit B.
+ *
+ * Software distributed under the License is distributed on an “AS IS”
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
+ * the License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is part of "Axelor Business Suite", developed by
+ * Axelor exclusively.
+ *
+ * The Original Developer is the Initial Developer. The Initial Developer of
+ * the Original Code is Axelor.
+ *
+ * All portions of the code written by Axelor are
+ * Copyright (c) 2012-2013 Axelor. All Rights Reserved.
+ */
+.nav-tabs-wrap {
+	position: relative;
+}
+
+.nav-tabs-wrap a {
+	outline: none;
+}
+
+.nav-tabs-menu,
+.nav-tabs-scroll-l,
+.nav-tabs-scroll-r {
+	position: absolute;
+	width: 16px;
+	top: 0px;
+	bottom: 0px;
+	margin-top: .8em;
+	border-bottom: 1px solid #DDD;
+	display: none;
+}
+
+.nav-tabs-scroll-r {
+	right: 0px;
+}
+
+.nav-tabs-scroll-l a,
+.nav-tabs-scroll-r a {
+	margin: auto;
+	display: block;
+	width: 6px;
+	text-decoration: none;
+}
+
+.nav-tabs-menu {
+	right: 0;
+}
+
+.nav-tabs-scroll-l.disabled a,
+.nav-tabs-scroll-r.disabled a {
+	color: #999999;
+	cursor: default;
+}
+
+.nav-tabs-strip {
+	position: relative;
+	overflow: hidden;
+	height: 36px;
+}
+
+.nav-tabs-strip .nav-tabs {
+	display: block;
+	position: absolute !important;
+	width: 100000px;
+}
+
+.nav-tabs-closable li {
+	position: relative;
+}
+
+.nav-tabs-scrollable li > a,
+.nav-tabs-closable li > a {
+	border: 1px solid #EEE;
+	border-bottom: 1px solid #DDD;
+}
+
+.nav-tabs-closable li > a {
+	padding-right: 18px;
+}
+
+.nav-tabs-closable li > i {
+	position: absolute;
+	top: 4px;
+	right: 6px;
+	color: #ccc;
+	cursor: pointer;
+	font-size: 11px;
+}
+
+.nav-tabs-closable li.inactive:hover > a {
+	color: #005580;
+	background-color: #eee;
+}
+
+.nav-tabs-closable .active > i,
+.nav-tabs-closable li > i:hover {
+	color: #555;
+}

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://apps.axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://apps.axelor.com/xml/ns/object-views http://apps.axelor.com/xml/ns/object-views/object-views_0.9.xsd">
+
+  <grid name="order-grid" title="Orders">
+    <field name="name"/>
+    <field name="customer"/>
+    <field name="orderDate"/>
+    <field name="totalAmount"/>
+    <field name="confirmed"/>
+  </grid>
+
+  <form cols="4" name="order-form" title="Order"
+    onNew="default-order-record"
+    onSave="check-order-values,action-sale-order-validate">
+    <separator title="Order Details" colSpan="4"/>
+    <field name="name"/>
+    <field name="confirmed"/>
+    <break/>
+    <field name="customer" canSelect="true" form-view="contact-form" grid-view="contact-grid" readonlyIf="confirmed">
+      <form title="Customer">
+        <field name="title"/>
+        <break/>
+        <field name="firstName"/>
+        <field name="lastName"/>
+        <field name="email"/>
+        <field name="phone"/>
+      </form>
+    </field>
+    <field name="orderDate" readonlyIf="confirmed"/>
+    <field name="createDate" readonlyIf="confirmed"/>
+    <field name="confirmDate" requiredIf="confirmed" validIf="confimDate == null || $moment(confirmDate) &gt; $moment(createDate)"/>
+    <notebook name="nbDetails" colSpan="4" readonlyIf="confirmed">
+      <page title="Items" cols="1">
+        <field name="items" onChange="com.axelor.sale.web.SaleOrderController:calculate">
+          <grid title="Items" editable="true">
+            <field name="product"/>
+            <field name="price"/>
+            <field name="quantity"/>
+            <field name="taxes"/>
+          </grid>
+          <form cols="4" title="Ordered Item">
+            <field name="product" colSpan="4"/>
+            <break/>
+            <field name="price"/>
+            <field name="quantity"/>
+            <notebook colSpan="4">
+              <page title="Taxes" cols="1">
+                <field name="taxes">
+                  <grid title="Taxes">
+                    <field name="name"/>
+                    <field name="rate"/>
+                  </grid>
+                </field>
+              </page>
+            </notebook>
+          </form>
+        </field>
+      </page>
+      <page title="Notes" cols="1">
+        <field name="notes" showTitle="false"/>
+      </page>
+    </notebook>
+    <group colSpan="4" cols="3" colWidths="50px,*,220px">
+      <button name="btnCalculate" title="Calculate" hideIf="confirmed" onClick="check-order-dates,com.axelor.sale.web.SaleOrderController:calculate,save"/>
+      <spacer colSpan="1"/>
+      <group readonly="true" colSpan="1" css="subtotal" cols="2" colWidths="50%,50%">
+        <field name="amount"/>
+        <field name="taxAmount"/>
+        <field name="totalAmount" css="subtotal-total"/>
+      </group>
+    </group>
+  </form>
+
+  <calendar name="sales-timeline" title="Sales Timeline" model="com.axelor.sale.db.Order" editable="false"
+    eventStart="createDate"
+    eventStop="confirmDate"
+    eventLength="8"
+    colorBy="customer">
+    <field name="name"/>
+  </calendar>
+  
+  <search-filters name="filter-sales" model="com.axelor.sale.db.Order" title="Filter Sale Orders">
+    <filter title="Confirmed">
+      <domain>self.confirmed = true</domain>
+    </filter>
+    <filter title="Not Confirmed">
+      <domain>self.confirmed = false OR self.confirmed is null</domain>
+    </filter>
+    <filter title="High Value (>= 1000)">
+      <domain>self.totalAmount &gt;= 1000</domain>
+    </filter>
+  </search-filters>
+  
+  <action-record name="default-order-record" model="com.axelor.sale.db.Order">
+    <field name="customer" expr="action:default-customer-record" if="!(__ref__ instanceof com.axelor.contact.db.Contact)"/>
+    <field name="customer" expr="eval: __ref__" if="__ref__ instanceof com.axelor.contact.db.Contact"/>
+    <field name="orderDate" expr="eval: __date__"/>
+    <field name="createDate" expr="eval: __date__"/>
+    <field name="items" expr="action:default-orderline-record"/>
+  </action-record>
+
+  <action-record name="default-orderline-record" model="com.axelor.sale.db.OrderLine">
+    <field name="product" expr="action:default-product-record"/>
+    <field name="price" expr="100.0"/>
+    <field name="quantity" expr="1"/>
+    <field name="taxes" expr="action:default-tax-record"/>
+  </action-record>
+
+  <action-record name="default-product-record"
+    model="com.axelor.sale.db.Product"
+    search="('self.code = ?1', 'PC1')">
+    <field name="code" expr="PC1"/>
+    <field name="name" expr="Personal Computer"/>
+  </action-record>
+
+  <action-record name="default-tax-record"
+    model="com.axelor.sale.db.Tax"
+    search="('self.code LIKE ?1', 'VAT%')">
+    <field name="code" expr="VAT12"/>
+    <field name="name" expr="Vat 12%"/>
+    <field name="rate" expr="0.12"/>
+  </action-record>
+
+  <action-record name="default-customer-record"
+    model="com.axelor.contact.db.Contact"
+    search="self.email = 'john.smith@gmail.com'">
+    <field name="title" expr="action:default-title-record"/>
+    <field name="firstName" expr="John"/>
+    <field name="lastName" expr="Smith"/>
+    <field name="email" expr="john.smith@gmail.com"/>
+  </action-record>
+
+  <action-record name="default-title-record"
+    model="com.axelor.contact.db.Title"
+    search="('self.code = ?1', 'mr')">
+    <field name="code" expr="mr"/>
+    <field name="name" expr="Mr."/>
+  </action-record>
+
+  <action-validate name="action-sale-order-validate">
+    <error message="Create Date is in future." if="confirmed &amp;&amp; createDate &gt; __date__"/>
+    <error message="Order Date is in future." if="confirmed &amp;&amp; orderDate &gt; __date__"/>
+    <alert message="No Sale Order Items. Would you like to continue?" if="confirmed &amp;&amp; !items"/>
+  </action-validate>
+
+  <action-condition name="check-order-dates">
+    <check field="orderDate"/>
+    <check field="createDate"/>
+    <check field="createDate" if="orderDate &gt; createDate" error="Order creation date is in the future."/>
+  </action-condition>
+
+  <action-condition name="check-order-values">
+    <check field="amount" if="confirmed &amp;&amp; !amount"/>
+    <check field="taxAmount" if="confirmed &amp;&amp; !taxAmount"/>
+    <check field="totalAmount" if="confirmed &amp;&amp; !totalAmount"/>
+  </action-condition>
+
+</object-views>

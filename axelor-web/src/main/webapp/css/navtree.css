@@ -1,0 +1,77 @@
+/**
+ * Copyright (c) 2012-2013 Axelor. All Rights Reserved.
+ *
+ * The contents of this file are subject to the Common Public
+ * Attribution License Version 1.0 (the “License”); you may not use
+ * this file except in compliance with the License. You may obtain a
+ * copy of the License at:
+ *
+ * http://license.axelor.com/.
+ *
+ * The License is based on the Mozilla Public License Version 1.1 but
+ * Sections 14 and 15 have been added to cover use of software over a
+ * computer network and provide for limited attribution for the
+ * Original Developer. In addition, Exhibit A has been modified to be
+ * consistent with Exhibit B.
+ *
+ * Software distributed under the License is distributed on an “AS IS”
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
+ * the License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is part of "Axelor Business Suite", developed by
+ * Axelor exclusively.
+ *
+ * The Original Developer is the Initial Developer. The Initial Developer of
+ * the Original Code is Axelor.
+ *
+ * All portions of the code written by Axelor are
+ * Copyright (c) 2012-2013 Axelor. All Rights Reserved.
+ */
+.nav-tree .nav-header {
+	margin-top: 0px;
+	text-transform: none;
+}
+
+.nav-tree li {
+	white-space: nowrap;
+}
+
+.nav-tree li a {
+	color: #333;
+	padding: 3px 0px;
+	cursor: pointer;
+	outline: none;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.nav-tree li i[class^=icon-] {
+	width: 16px;
+	display: inline-block;
+	text-align: center;
+}
+
+.nav-tree img {
+	width: 16px;
+	height: 16px;
+	max-width: 16px;
+	min-width: 16px;
+	margin-top: -4px;
+	margin-right: 4px
+}
+
+.nav-tree li.active a {
+	background-color: #0074CC;
+	background-image: -moz-linear-gradient(top, #08C, #05C);
+	background-image: -ms-linear-gradient(top, #08C, #05C);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#08C), to(#05C));
+	background-image: -webkit-linear-gradient(top, #08C, #05C);
+	background-image: -o-linear-gradient(top, #08C, #05C);
+	background-image: linear-gradient(top, #08C, #05C);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0055cc', GradientType=0);
+	border-color: #05C #05C #003580;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
